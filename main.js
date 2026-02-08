@@ -1,25 +1,32 @@
 const glados = async () => {
-  const notice = []
+  const notice =
   if (!process.env.GLADOS) return
   for (const cookie of String(process.env.GLADOS).split('\n')) {
     if (!cookie) continue
     try {
       const common = {
         'cookie': cookie,
-        'referer': 'https://glados.rocks/console/checkin',
-        'user-agent': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)',
+        // 修正：将 referer 修改为新域名
+        'referer': 'https://glados.cloud/console/checkin', 
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
       }
-      const action = await fetch('https://glados.rocks/api/user/checkin', {
+      // 修正：将 API 地址修改为新域名
+      const action = await fetch('https://glados.cloud/api/user/checkin', {
         method: 'POST',
-        headers: { ...common, 'content-type': 'application/json' },
+        headers: {...common, 'content-type': 'application/json' },
         body: '{"token":"glados.one"}',
       }).then((r) => r.json())
+      
       if (action?.code) throw new Error(action?.message)
-      const status = await fetch('https://glados.rocks/api/user/status', {
+      
+      // 修正：将状态查询地址修改为新域名
+      const status = await fetch('https://glados.cloud/api/user/status', {
         method: 'GET',
-        headers: { ...common },
+        headers: {...common },
       }).then((r) => r.json())
+      
       if (status?.code) throw new Error(status?.message)
+      
       notice.push(
         'Checkin OK',
         `${action?.message}`,
@@ -35,6 +42,7 @@ const glados = async () => {
   }
   return notice
 }
+//... 后面 notify 和 main 函数部分保持不变
 
 const notify = async (notice) => {
   if (!process.env.NOTIFY || !notice) return
