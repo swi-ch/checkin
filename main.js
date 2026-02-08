@@ -6,7 +6,8 @@ const glados = async () => {
     try {
       const common = {
         'cookie': cookie,
-        'referer': 'https://glados.cloud/console/checkin', 
+        'referer': 'https://glados.cloud/console/checkin',
+        'origin': 'https://glados.cloud',
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
       }
       const action = await fetch('https://glados.cloud/api/user/checkin', {
