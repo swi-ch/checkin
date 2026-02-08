@@ -1,5 +1,5 @@
 const glados = async () => {
-  const notice =  // <--- 确保这里有，不要漏掉
+  const notice = []
   if (!process.env.GLADOS) return
   for (const cookie of String(process.env.GLADOS).split('\n')) {
     if (!cookie) continue
